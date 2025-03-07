@@ -9,16 +9,21 @@ function App() {
   const [score, setScore] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [remainedQs, setRemainedQs] = useState(1);
+  const [over, setOver] = useState(false);
 
   function handleNextQuestion() {
     if (currentQuestion < questionBank.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setRemainedQs(remainedQs + 1);
     } else {
-      if (remainedQs < 5) {
-        setRemainedQs(remainedQs + 1);
-      }
+      setOver(!over);
     }
+  }
+  function restart() {
+    setCurrentQuestion(0);
+    setScore(0);
+    setOver(!over);
+    setRemainedQs(1);
   }
 
   const handleUserAnswer = (answer) => {
@@ -26,15 +31,13 @@ function App() {
       setScore(score + 1);
     }
   };
-  console.log("Curr", currentQuestion);
-  console.log("Q", questionBank.length - 1);
 
   return (
     <>
-      {currentQuestion < questionBank.length - 1 ? (
+      {over ? (
         <div className="score">
           <h1>
-            Your Score : <Score score={score} />
+            عدد الإجابات الصحيحة <Score score={score} />
           </h1>
         </div>
       ) : (
@@ -49,13 +52,24 @@ function App() {
           />
         </>
       )}
-      <button
-        onClick={() => {
-          handleNextQuestion();
-        }}
-      >
-        عرض السؤال التالي
-      </button>
+
+      {over ? (
+        <button
+          onClick={() => {
+            restart();
+          }}
+        >
+          إعادة الأسئلة
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            handleNextQuestion();
+          }}
+        >
+          عرض السؤال التالي
+        </button>
+      )}
     </>
   );
 }
