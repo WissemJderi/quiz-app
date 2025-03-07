@@ -9,8 +9,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [remainedQs, setRemainedQs] = useState(1);
-  console.log(questionBank.length);
-  console.log(score);
+
   function handleNextQuestion() {
     if (currentQuestion < questionBank.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
@@ -18,6 +17,7 @@ function App() {
     } else {
       if (remainedQs < 5) {
         setRemainedQs(remainedQs + 1);
+        console.log("No");
       }
     }
   }
@@ -27,9 +27,12 @@ function App() {
       setScore(score + 1);
     }
   };
+  console.log("Curr", currentQuestion);
+  console.log("Q", questionBank.length - 1);
+
   return (
     <>
-      {remainedQs == questionBank.length ? (
+      {currentQuestion > questionBank.length - 1 ? (
         <div className="score">
           <h1>
             Your Score : <Score score={score} />
@@ -53,7 +56,7 @@ function App() {
           handleNextQuestion();
         }}
       >
-        Next
+        عرض السؤال التالي
       </button>
     </>
   );

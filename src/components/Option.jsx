@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import questionBank from "./QuestionBank.jsx";
 
-function Option(props) {
-  const question = questionBank[props.currentQuestion];
+function Option({ currentQuestion, handleUserAnswer }) {
+  const [selectedOption, setSelectedOption] = useState("");
+  const question = questionBank[currentQuestion];
+
+  useEffect(() => {
+    // Reset the selected option when the question changes
+    setSelectedOption("");
+  }, [currentQuestion]);
 
   function handleAnswer(event) {
     const selectedOption = event.target.value;
+    setSelectedOption(selectedOption);
     if (selectedOption === question.answer) {
-      props.handleUserAnswer("yes");
+      handleUserAnswer("yes");
       console.log("yes");
     } else {
+      handleUserAnswer("no");
       console.log(selectedOption);
     }
   }
@@ -24,6 +32,7 @@ function Option(props) {
             id={`option-${index}`}
             name="option"
             value={option}
+            checked={selectedOption === option}
             onChange={handleAnswer}
           />
           <label htmlFor={`option-${index}`}>{option}</label>
