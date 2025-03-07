@@ -17,7 +17,6 @@ function App() {
     } else {
       if (remainedQs < 5) {
         setRemainedQs(remainedQs + 1);
-        console.log("No");
       }
     }
   }
@@ -32,7 +31,7 @@ function App() {
 
   return (
     <>
-      {currentQuestion > questionBank.length - 1 ? (
+      {currentQuestion < questionBank.length - 1 ? (
         <div className="score">
           <h1>
             Your Score : <Score score={score} />
@@ -40,7 +39,6 @@ function App() {
         </div>
       ) : (
         <>
-          {" "}
           <Question currentQuestion={currentQuestion} />
           <h1>
             {remainedQs}/{questionBank.length}
